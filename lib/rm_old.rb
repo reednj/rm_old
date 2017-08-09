@@ -5,10 +5,8 @@ module RmOld
 	class App
 		def main
 			opts = Trollop::options do
-				version "delete old files (c) 2016 @reednj"
-				opt :wildcard, "wildcard for filename matching", :type => :string, :default => '*.gz'
-				opt :path, "path to search", :type => :string
-				opt :age, "match any files older than this (ex. 1d, 36h)", :type => :string
+				version "rm_old --age=n [--test] <files> (c) 2016 @reednj"
+				opt :age, "delete any files older than this (ex. 1d, 36h)", :type => :string
 				opt :test, "print the list of matched files, but don't delete"
 			end
 
@@ -18,16 +16,16 @@ module RmOld
 				Trollop::educate
 			end
 
-			ext = opts[:wildcard] || '*.gz'
 			max_age = opts[:age].to_duration
-			path = opts[:path] || '.'
-			path = path + '/' if path.last != '/'
-			matched = Dir["#{path}#{ext}"].select {|f| File.mtime(f).age > max_age }
+			matched = ARGV.select {|f| File.file?(f) && File.mtime(f).age > max_age }
 
 			puts 'Listing files only, will not delete' if opts[:test]
 			matched.each do |f|
-				File.delete(f) if !opts[:test]
-				puts f
+				if !opts[:test]
+					File.delete(f)
+				else
+					puts f
+				end
 			end
 		end
 	end
