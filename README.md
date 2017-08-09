@@ -1,25 +1,31 @@
 # rm_old
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'rm_old'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install rm_old
+rm_old deletes old files
 
 ## Usage
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/Nathan Reed/rm_old.
+Installation:
 
+    $ gem install rm_old
+
+Options:
+
+        rm_old --age=n [--test] <files> (c) 2016 @reednj
+        Options:
+        -a, --age=<s>    delete any files older than this (ex. 1d, 36h)
+        -t, --test       print the list of matched files, but don't delete
+        -v, --version    Print version and exit
+        -h, --help       Show this message
+
+Examples:
+
+    # delete all .gz files older than 14 days
+    rm_old -a 14d *.gz
+
+    # delete all files older than 2 hours
+    rm_old --age 2h *
+
+    # same as before but will print a list of what would be deleted
+    rm_old --test --age 2h *
 
 ## License
 
