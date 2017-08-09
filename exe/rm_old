@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+require 'rm_old'
+RmOld::App.new.main
